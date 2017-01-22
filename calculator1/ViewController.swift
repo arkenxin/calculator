@@ -5,20 +5,22 @@
 //  Created by jinikuadmin on 1/15/17.
 //  Copyright © 2017 xin. All rights reserved.
 //
-
+import Foundation
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, DataSentDelegate {
     
     var numberOnScreen:Double = 0
     var previousNumber:Double = 0
     var performingMath = false
     var operation = 0
+    var conversionValue:Double = 0
     
     //name 2 labels label (original) and label (converted) respectively
     @IBOutlet weak var labelOri: UILabel!
 
     @IBOutlet weak var labelCon: UILabel!
+    @IBOutlet weak var labelErrorMessage: UILabel!
     
     @IBAction func btnNumbers(_ sender: UIButton) {
         
@@ -34,6 +36,31 @@ class ViewController: UIViewController {
             numberOnScreen = Double(labelOri.text!)!
         }
         
+    }
+    
+    @IBAction func btnConvert(_ sender: UIButton) {
+     
+        if labelOri.text?.isEmpty == true
+        { labelErrorMessage.text = "No number detected"
+        }
+        else
+        {
+            //let SecondViewController = self.storyboard?.instantiateViewController(withIdentifier: "SecondViewController") as! SecondViewController
+            
+            //let conversionValue:Double = SecondViewController.result
+            
+            //error
+            //if conversionValue != nil
+            //{
+            //labelErrorMessage.text = "No settings detected"
+            //}
+            //else {
+              //
+            let convertedNumber = numberOnScreen * 1.24
+                let convertedNumberShortened = String(format: "%.1f", arguments: [convertedNumber])
+           labelCon.text = convertedNumberShortened
+            //}
+        }
     }
     
     @IBAction func btnFunction(_ sender: UIButton)
@@ -91,17 +118,17 @@ class ViewController: UIViewController {
             operation = 0
         }
         
-        else if sender.tag == 17 //backspace
-        {
-            if (labelOri.text!).characters.count > 2
-            {
-              labelOri.text!.characters.dropLast(1)
-                labelOri.text = func dropNumber
-            }
-            else
-            {   labelOri.text = ""
-            }
-        }
+        //else if sender.tag == 17 //backspace
+        //{
+           // if (labelOri.text!).characters.count > 2
+            //{
+           //   labelOri.text!.characters.dropLast(1)
+             //   labelOri.text = func dropNumber
+         //   }
+         //   else
+          //  {   labelOri.text = ""
+           // }
+       // }
     }
     
     
@@ -110,12 +137,15 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
+    
+    func userSavedData(data: Double) {
+        conversionValue = data
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
+    
 }
 
